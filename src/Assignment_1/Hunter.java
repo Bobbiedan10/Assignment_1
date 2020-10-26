@@ -2,7 +2,7 @@ package Assignment_1;
 
 public class Hunter extends GamePiece {
     int energyLevel;
-    int MAXENERGY;
+    static final int MAXENERGY = 6;
     char hName;
 
     Hunter(){
@@ -16,10 +16,6 @@ public class Hunter extends GamePiece {
 
     public int getEnergyLevel() {
         return energyLevel;
-    }
-
-    public void setMAXENERGY(int MAXENERGY) {
-        this.MAXENERGY = MAXENERGY;
     }
 
     public int getMAXENERGY() {
