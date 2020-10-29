@@ -22,7 +22,6 @@ public class GameGrid {
     public boolean addGamePiece(GamePiece piece, int row, int col){
         if(grid[row][col] == null){
             grid[row][col] = piece;
-            grid[row][col].getSymbol();
             return true;
         }
         else {
@@ -130,7 +129,7 @@ public class GameGrid {
                     System.out.print("  | ");
                 }
                 else {
-                    System.out.print(grid[i][j].symbol + " | ");
+                    System.out.print(grid[i][j].getSymbol() + " | ");
                 }
             }
             System.out.println();
