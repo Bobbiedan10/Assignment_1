@@ -2,7 +2,7 @@ package Assignment_1;
 
 public class Hunter extends GamePiece {
     int energyLevel;
-    static final int MAXENERGY = 6;
+    final int MAXENERGY = 4;
     char hName;
 
     Hunter(){

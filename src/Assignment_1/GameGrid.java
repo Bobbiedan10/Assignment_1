@@ -22,6 +22,7 @@ public class GameGrid {
     public boolean addGamePiece(GamePiece piece, int row, int col){
         if(grid[row][col] == null){
             grid[row][col] = piece;
+            grid[row][col].getSymbol();
             return true;
         }
         else {
@@ -37,6 +38,7 @@ public class GameGrid {
         String Player1 = "";
         String Player2 = "";
         player1 = new Player(Player1);
+
         player2 = new Player(Player2);
 
 
@@ -46,10 +48,11 @@ public class GameGrid {
         System.out.println("Player 1, You are the Hunter");
         System.out.println("Please enter two initials for Hunter 1 and Hunter 2");
         System.out.println("Hunter 1");
-        char hunt1 = input.next().charAt(0);
+        char hunt1 = input.next().toUpperCase().charAt(0);
 
         System.out.println("Hunter 2");
-        char hunt2 = input.next().charAt(0);
+        char hunt2 = input.next().toUpperCase().charAt(0);
+
         System.out.println("Player 2, enter your name: ");
         Player2 = input.next();
         player2.setName(Player2);
@@ -88,9 +91,11 @@ public class GameGrid {
         addGamePiece(new Zhen(), 2, 6);
         addGamePiece(new Zhen(), 2, 7);
         addGamePiece(new Hunter(), 4, 3);
+        grid[4][3].setSymbol(hunt1);
         hunter1Coord[0] = 4;
         hunter1Coord[1] = 3;
         addGamePiece(new Hunter(), 4, 4);
+        grid[4][4].setSymbol(hunt2);
         hunter2Coord[0] = 4;
         hunter2Coord[1] = 4;
         addGamePiece(new Bramble(), 6, 0);
@@ -134,8 +139,8 @@ public class GameGrid {
 
         }
         System.out.println();
-        System.out.println("Hunter "+ hunter.hName + " energy: " + hunter.getMAXENERGY());
-        System.out.println("Hunter "+ hunter.hName + " energy: " + hunter.getMAXENERGY());
+        System.out.println("Hunter "+ grid[4][3].getSymbol() + " energy: " + hunter.getMAXENERGY());
+        System.out.println("Hunter "+ grid[4][4].getSymbol() + " energy: " + hunter.getMAXENERGY());
         System.out.println("Number of Zhens: "+ numZhens);
     }
 }
