@@ -1,17 +1,18 @@
 package Assignment_1;
-
+//GamePiece parent class for Bramble, Zhen, Hunter
 public class GamePiece {
+    //Data type declaration
     String type;
     char symbol;
     int rowPos;
     int colPos;
-
+    //Default constructor with initialisation
     GamePiece()
     {
         type = "?";
         symbol = '?';
     }
-
+    //type accessor and mutator
     public void setType(String type) {
         this.type = type;
     }
@@ -20,14 +21,12 @@ public class GamePiece {
         return type;
     }
 
-    public void setSymbol(char symbol) {
-        this.symbol = symbol;
-    }
+    //symbol accessor and mutator
+    public void setSymbol(char symbol) { this.symbol = symbol; }
 
-    public char getSymbol() {
-        return symbol;
-    }
+    public char getSymbol() { return symbol;}
 
+    //colPos accessor and mutator
     public void setColPos(int colPos) {
         this.colPos = colPos;
     }
@@ -36,6 +35,7 @@ public class GamePiece {
         return colPos;
     }
 
+    //rowPos accessor and mutator
     public void setRowPos(int rowPos) {
         this.rowPos = rowPos;
     }
