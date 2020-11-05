@@ -163,14 +163,12 @@ public class GameGrid {
             }
             System.out.println();
             System.out.println(" ... ... ... ... ... ... ... ... ");
-
-
         }
         System.out.println();
 
         //give the players information about their characters.
-        System.out.println("Hunter "+ grid[4][3].getSymbol() + " energy: " + hunter.getMAXENERGY());
-        System.out.println("Hunter "+ grid[4][4].getSymbol() + " energy: " + hunter.getMAXENERGY());
+        System.out.println("Hunter "+ grid[4][3].getSymbol() + " energy: " + hunter.getEnergyLevel());
+        System.out.println("Hunter "+ grid[4][4].getSymbol() + " energy: " + hunter.getEnergyLevel());
         System.out.println("Number of Zhens: "+ numZhens);
     }
 }

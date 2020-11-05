@@ -11,6 +11,8 @@ public class GamePiece {
     {
         type = "?";
         symbol = '?';
+        rowPos = 0;
+        colPos = 0;
     }
     //type accessor and mutator
     public void setType(String type) {
@@ -43,4 +45,6 @@ public class GamePiece {
     public int getRowPos() {
         return rowPos;
     }
+
+
 }
