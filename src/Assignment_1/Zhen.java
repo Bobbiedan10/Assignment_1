@@ -10,6 +10,9 @@ public class Zhen extends GamePiece implements ControlActions{
 
     @Override
     public int[] findNewPos(int direction) {
+        int row = getRowPos();
+        int col = getColPos();
+
         return new int[0];
     }
 

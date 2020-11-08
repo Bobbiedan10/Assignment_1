@@ -4,6 +4,7 @@ public class Hunter extends GamePiece implements ControlActions{
     int energyLevel;
     final int MAXENERGY = 6;
     char hName;
+    int timesNotEaten;
 
     Hunter(){
         type = "hunter";
@@ -28,6 +29,10 @@ public class Hunter extends GamePiece implements ControlActions{
     public char gethName() {
         return hName;
     }
+
+    public void setTimesNotEaten(int timesNotEaten) { this.timesNotEaten = timesNotEaten; }
+
+    public int getTimesNotEaten() { return timesNotEaten; }
 
     @Override
     public int[] findNewPos(int direction) {
