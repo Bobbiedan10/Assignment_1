@@ -24,8 +24,11 @@ public class GameGrid {
 
     //Add functions to their respective location using addGamePiece
     public boolean addGamePiece(GamePiece piece, int row, int col){
+
         if(grid[row][col] == null){
             grid[row][col] = piece;
+            piece.setColPos(col);
+            piece.setRowPos(row);
             return true;
         }
         else {
@@ -170,5 +173,10 @@ public class GameGrid {
         System.out.println("Hunter "+ grid[4][3].getSymbol() + " energy: " + hunter.getEnergyLevel());
         System.out.println("Hunter "+ grid[4][4].getSymbol() + " energy: " + hunter.getEnergyLevel());
         System.out.println("Number of Zhens: "+ numZhens);
+    }
+
+    public void GamePlay()
+    {
+
     }
 }

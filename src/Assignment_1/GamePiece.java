@@ -45,6 +45,4 @@ public class GamePiece {
     public int getRowPos() {
         return rowPos;
     }
-
-
 }
