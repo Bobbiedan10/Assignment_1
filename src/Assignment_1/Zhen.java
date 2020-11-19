@@ -1,4 +1,4 @@
-package Assignment_1;
+//package Assignment_1;
 
 //Zhen game piece
 public class Zhen extends GamePiece implements ControlActions{

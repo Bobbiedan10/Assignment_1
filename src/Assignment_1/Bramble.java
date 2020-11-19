@@ -1,4 +1,4 @@
-package Assignment_1;
+//package Assignment_1;
 
 //Bramble game piece class
 public class Bramble extends GamePiece{

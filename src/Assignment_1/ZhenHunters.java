@@ -1,4 +1,4 @@
-package Assignment_1;
+//package Assignment_1;
 
 public class ZhenHunters {
     public static void main(String[] args) {

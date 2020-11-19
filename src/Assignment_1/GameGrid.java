@@ -1,4 +1,4 @@
-package Assignment_1;
+//package Assignment_1;
 
 //Allow user to enter data using Scanner
 import java.util.Scanner;
@@ -149,7 +149,7 @@ public class GameGrid {
     //show the game grid to the user
     void displayGrid() {
         Hunter hunter = new Hunter();
-        Zhen zhens = new Zhen();
+        
 
         System.out.println(" ... ... ... ... ... ... ... ... ");
         for (int i = 0; i < numRows; i++) {
@@ -179,4 +179,51 @@ public class GameGrid {
     {
 
     }
+
+    public void displayMovementOptions(int player){
+        if(player == 1){
+            System.out.println("1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (south-west), 7 (south-east), 8 (north-east), 9 (eat north), 10 (eat west), 11 (eat south), 12 (eat east)");
+        }
+        else if (player == 2 ){
+            System.out.println("1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (south-west), 7 (south-east), 8 (north-east).");
+        }
+        
+    }
+
+    boolean validateMove(int row, int col){
+       try {
+            if(row >= grid.length || row <0|| col >= grid[numRows].length || col <0)
+            {
+                throw new EdgeException("Re-enter or die!");
+            }
+            else if (grid[row][col] == null)
+            {
+                throw new CrowdingException();
+            }
+
+       }
+       catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+       }
+        
+
+        return true;
+    }
+
+    boolean isZhenPosition(int rowPos, int colPos){
+        if(grid[rowPos][colPos] instanceof Zhen)
+            return true;
+
+        return false;
+    }
+
+    boolean removePiece(int rowPos, int colPos){
+        if(isZhenPosition(rowPos, colPos))
+        {
+            grid[rowPos][colPos] = null;
+            return true;
+        }
+        return false;
+    }
+
 }

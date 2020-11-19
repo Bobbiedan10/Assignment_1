@@ -1,4 +1,4 @@
-package Assignment_1;
+//package Assignment_1;
 //GamePiece parent class for Bramble, Zhen, Hunter
 public class GamePiece {
     //Data type declaration

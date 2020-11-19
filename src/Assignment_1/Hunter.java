@@ -1,4 +1,4 @@
-package Assignment_1;
+//package Assignment_1;
 
 public class Hunter extends GamePiece implements ControlActions, EatingActions{
     int energyLevel;
