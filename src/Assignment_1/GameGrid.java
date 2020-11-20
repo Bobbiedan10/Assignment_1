@@ -148,7 +148,7 @@ public class GameGrid {
 
     //show the game grid to the user
     void displayGrid() {
-        Hunter hunter = new Hunter();
+       
         
 
         System.out.println(" ... ... ... ... ... ... ... ... ");
@@ -170,8 +170,17 @@ public class GameGrid {
         System.out.println();
 
         //give the players information about their characters.
-        System.out.println("Hunter "+ grid[4][3].getSymbol() + " energy: " + hunter.getEnergyLevel());
-        System.out.println("Hunter "+ grid[4][4].getSymbol() + " energy: " + hunter.getEnergyLevel());
+        //change CH
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++){
+                if(grid[i][j] instanceof Hunter){
+                    Hunter hunter = (Hunter) grid[i][j];
+                    System.out.println("Hunter "+ hunter.getSymbol() + " energy: " +hunter.getEnergyLevel());
+                }
+            }
+        }
+        
+        
         System.out.println("Number of Zhens: "+ numZhens);
     }
 
@@ -182,28 +191,29 @@ public class GameGrid {
 
     public void displayMovementOptions(int player){
         if(player == 1){
-            System.out.println("1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (south-west), 7 (south-east), 8 (north-east), 9 (eat north), 10 (eat west), 11 (eat south), 12 (eat east)");
+            System.out.println("Use the following numbers to move in the corresonding direction: 1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (north-east),7(south-west), 8(south-east), 9 (eat north), 10 (eat west), 11 (eat south), 12 (eat east):");
         }
         else if (player == 2 ){
-            System.out.println("1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (south-west), 7 (south-east), 8 (north-east).");
+            System.out.println("1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (north-east),7(south-west), 8(south-east).");
         }
         
     }
 
     boolean validateMove(int row, int col){
        try {
-            if(row >= grid.length || row <0|| col >= grid[numRows].length || col <0)
+            if(row >= numRows || row <0|| col >= numCols || col <0)
             {
                 throw new EdgeException("Re-enter or die!");
             }
-            else if (grid[row][col] == null)
+            else if (grid[row][col] != null)
             {
                 throw new CrowdingException();
             }
 
        }
        catch(Exception e){
-            System.out.println(e.getLocalizedMessage());
+            System.out.println(e);
+            return false;
        }
         
 
@@ -223,6 +233,50 @@ public class GameGrid {
             grid[rowPos][colPos] = null;
             return true;
         }
+        return false;
+    }
+
+    
+    //Select hunter
+    void selectHunter(){
+      
+            while(true){
+                try{
+                    System.out.println("Player 1 please select a hunter to move!");
+                    System.out.print("Row:");
+                    int row = input.nextInt();
+                    System.out.print("Column:");
+                    int col = input.nextInt();
+    
+                    if(grid[row][col] instanceof Hunter)
+                    {
+                        Hunter hunter = (Hunter) grid[row][col];
+                        displayMovementOptions(1);
+                        int direction = input.nextInt();
+                        int[] newPos = hunter.findNewPos(direction);
+                        if (validateMove(newPos[0], newPos[1])){
+                            grid[row][col] = null;
+                            hunter.moveToNewPos(direction);
+
+                            addGamePiece(hunter, hunter.getRowPos(), hunter.getColPos());
+                            
+                            return;
+                        }
+                        else
+                        System.out.println("Try Again");
+                    }
+                    else System.out.println("Uhh ohh no Hunter at this position. Try again!");
+    
+                }
+                catch (Exception e){
+                    System.out.println("Uhh ohh try again!");
+                }
+            }
+
+          
+    }
+    //Created to determine if the end of game conditions are met.
+    boolean endGame(){
         return false;
     }
 

@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 //package Assignment_1;
 
 public class ZhenHunters {
@@ -15,6 +17,12 @@ public class ZhenHunters {
                 "number of Zhens left on the grid.\n\n\n");
 
         board.setupGrid();
-        board.displayGrid();
+        while(!board.endGame()){
+            board.displayGrid();
+            board.selectHunter();
+        }
+            
+            
+            
     }
 }
