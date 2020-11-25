@@ -1,4 +1,7 @@
-//package Assignment_1;
+//GROUP 2
+//Ramon Dalrymple - 417000248
+//Chloe Hackett - 416000778
+package Assignment_1;
 
 //Zhen game piece
 public class Zhen extends GamePiece implements ControlActions{
@@ -8,6 +11,7 @@ public class Zhen extends GamePiece implements ControlActions{
         symbol = 'Z';
     }
 
+    //find new game piece position
     @Override
     public int[] findNewPos(int direction) {
         int currX = getRowPos();

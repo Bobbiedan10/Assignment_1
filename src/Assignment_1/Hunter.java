@@ -1,4 +1,7 @@
-//package Assignment_1;
+//GROUP 2
+//Ramon Dalrymple - 417000248
+//Chloe Hackett - 416000778
+package Assignment_1;
 
 public class Hunter extends GamePiece implements ControlActions, EatingActions{
     private int energyLevel;
@@ -10,7 +13,7 @@ public class Hunter extends GamePiece implements ControlActions, EatingActions{
     Hunter(){
         type = "hunter";
         symbol = 'H';
-        energyLevel = MAXENERGY;
+        energyLevel = 4;
         played =false;
     }
 
@@ -105,7 +108,7 @@ public class Hunter extends GamePiece implements ControlActions, EatingActions{
         }
         return expCoord;
     }
-
+    //Move game piece to new player position
     @Override
     public void moveToNewPos(int direction) {
         setRowPos(findNewPos(direction)[0]);

@@ -1,4 +1,8 @@
-//package Assignment_1;
+//GROUP 2
+//Ramon Dalrymple - 417000248
+//Chloe Hackett - 416000778
+package Assignment_1;
+
 //GamePiece parent class for Bramble, Zhen, Hunter
 public class GamePiece {
     //Data type declaration

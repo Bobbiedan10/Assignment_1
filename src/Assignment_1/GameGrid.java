@@ -1,4 +1,7 @@
-//package Assignment_1;
+//GROUP 2
+//Ramon Dalrymple - 417000248
+//Chloe Hackett - 416000778
+package Assignment_1;
 
 //Allow user to enter data using Scanner
 import java.util.Scanner;
@@ -153,9 +156,11 @@ public class GameGrid {
        
         int zhens = 0;
 
-        System.out.println(" ... ... ... ... ... ... ... ... ");
+        System.out.println(
+                "    0   1   2   3   4   5   6   7\n" +
+                "   ... ... ... ... ... ... ... ... ");
         for (int i = 0; i < numRows; i++) {
-            System.out.print("| ");
+            System.out.print( i + " | ");
             for (int j = 0; j < numCols; j++){
                 //if a location is empty add nothing to it
                 if(grid[i][j] == null){
@@ -167,12 +172,11 @@ public class GameGrid {
                 }
             }
             System.out.println();
-            System.out.println(" ... ... ... ... ... ... ... ... ");
+            System.out.println("   ... ... ... ... ... ... ... ... ");
         }
         System.out.println();
 
         //give the players information about their characters.
-        //change CH
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++){
                 if(grid[i][j] instanceof Hunter){
@@ -190,25 +194,28 @@ public class GameGrid {
     }
 
    
-
+    //display the options for movement to the selected players
     public void displayMovementOptions(int player){
         if(player == 1){
-            System.out.println("Use the following numbers to move in the corresonding direction: 1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (north-east),7(south-west), 8(south-east), 9 (eat north), 10 (eat west), 11 (eat south), 12 (eat east):");
+            System.out.println("Use the following numbers to move in the corresonding direction:\n 1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (north-east),\n7(south-west), 8(south-east), 9 (eat north), 10 (eat west), 11 (eat south), 12 (eat east):");
         }
         else if (player == 2 ){
-            System.out.println("1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west), 6 (north-east),7(south-west), 8(south-east).");
+            System.out.println("1 (north), 2 (south), 3 (east), 4 (west), 5 (north-west),\n 6 (north-east),7(south-west), 8(south-east).");
         }
         
     }
 
+    //validate players movements, if they go out of bounds or try to go in a filled space.
     boolean validateMove(int row, int col){
        try {
             if(row >= numRows || row <0|| col >= numCols || col <0)
             {
+                //out of bounds
                 throw new EdgeException("Re-enter or die!");
             }
             else if (grid[row][col] != null)
             {
+                //field has character
                 throw new CrowdingException();
             }
 
@@ -222,6 +229,7 @@ public class GameGrid {
         return true;
     }
 
+    //check if game piece in field is of type Zhen
     boolean isZhenPosition(int rowPos, int colPos){
         if(grid[rowPos][colPos] instanceof Zhen)
             return true;
@@ -229,6 +237,7 @@ public class GameGrid {
         return false;
     }
 
+    //remove zhen game piece
     boolean removePiece(int rowPos, int colPos){
         if(isZhenPosition(rowPos, colPos))
         {
@@ -238,11 +247,10 @@ public class GameGrid {
         return false;
     }
 
-    //Select Zehn
-    //Select hunter
+    //Select hunter game piece
     void selectHunter(){
       
-            while(true)// Repeat indefinetly until broken
+            while(true)// Repeat indefinitely until broken
             {
                 try{
                     System.out.println("Player 1 please select a hunter to move!");
@@ -250,7 +258,8 @@ public class GameGrid {
                     int row = input.nextInt();
                     System.out.print("Column:");
                     int col = input.nextInt();
-    
+
+                    //hunter can only select character of type hunter
                     if(grid[row][col] instanceof Hunter)
                     {
                         Hunter hunter = (Hunter) grid[row][col];
@@ -258,6 +267,7 @@ public class GameGrid {
                             displayMovementOptions(1);
                         int direction = input.nextInt();
                         int[] newPos = hunter.findNewPos(direction);
+                        displayGrid();
                         if (validateMove(newPos[0], newPos[1])){
                             if(direction >= 9){
                                 if(validateEating(hunter, direction))
@@ -269,6 +279,7 @@ public class GameGrid {
                                         hunter.setPlayed(true);
                                         hunter.setEnergyLevel(hunter.getEnergyLevel()+1);
                                         addGamePiece(hunter, hunter.getRowPos(), hunter.getColPos());
+                                        displayGrid();
                                         return;// 
                                     }
                                     else throw new GluttonyException();
@@ -288,6 +299,7 @@ public class GameGrid {
                                 hunter.setTimesNotEaten( hunter.getTimesNotEaten() +1);
                                 addGamePiece(hunter, hunter.getRowPos(), hunter.getColPos());
                                 hunter.setPlayed(true);
+                                displayGrid();
                                 return;// breaks while loop
                             }
                           
@@ -308,11 +320,11 @@ public class GameGrid {
           
     }
 
-    //Select Zehn
+    //Select Zhen game piece
     void selectZehn(){
         int row;
         int col;
-        while(true)// Repeat indefinetly until broken
+        while(true)// Repeat indefinitely until broken
         {
             try{
                 System.out.println("Player 2 please select a zhen to move!");
@@ -327,11 +339,12 @@ public class GameGrid {
                     displayMovementOptions(2);
                     int direction = input.nextInt();
                     int[] newPos = zhen.findNewPos(direction);
+                    displayGrid();
                     if (validateMove(newPos[0], newPos[1])){
                         removePiece(row, col);
                         zhen.moveToNewPos(direction);
                         addGamePiece(zhen, zhen.getRowPos(), zhen.getColPos());
-                        
+                        displayGrid();
                         return;// breaks while loop
                     }
                     else
@@ -373,6 +386,7 @@ public class GameGrid {
         return false;
     }
 
+    //Eat zhen and remove piece from the game board
     void eatZhen(Hunter hunter, int direction){
         
         if( direction == 9){
@@ -396,6 +410,7 @@ public class GameGrid {
         
     }
 
+    //check the hunters energy level
     boolean checkEnergyLevel(){
         int val =0;
         for (int i = 0; i < numRows; i++) {
@@ -411,7 +426,8 @@ public class GameGrid {
         }
         if(val <=1)
             return false;
-        else return true;
+        else
+            return true;
     }
     //Created to determine if the end of game conditions are met.
    int endGame(){
