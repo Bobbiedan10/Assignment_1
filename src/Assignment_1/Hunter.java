@@ -1,21 +1,28 @@
 //package Assignment_1;
 
 public class Hunter extends GamePiece implements ControlActions, EatingActions{
-    int energyLevel;
-    final int MAXENERGY = 6;
-    char hName;
-    int timesNotEaten;
+    private int energyLevel;
+    private final int MAXENERGY = 6;
+    private char hName;
+    private int timesNotEaten;
+    private boolean played;
 
     Hunter(){
         type = "hunter";
         symbol = 'H';
-        energyLevel = 0;
+        energyLevel = MAXENERGY;
+        played =false;
     }
 
-    public void setEnergyLevel(int energyLevel) {
-        if(energyLevel > MAXENERGY){
+    public int getMaxEnergy(){
+        return MAXENERGY;
+    }
+    public void setEnergyLevel(int energy) {
+        if(energy > MAXENERGY){
             energyLevel = MAXENERGY;
         }
+        else if(energy< 0)  energyLevel =0;
+        else energyLevel = energy;
     }
 
     public int getEnergyLevel() {
@@ -24,6 +31,13 @@ public class Hunter extends GamePiece implements ControlActions, EatingActions{
 
     public void sethName(char hName) {
         this.hName = hName;
+    }
+
+    public boolean getPlayed() {
+        return played;
+    }
+    public void setPlayed(boolean p) {
+        this.played = p;
     }
 
     public char gethName() {
@@ -48,14 +62,15 @@ public class Hunter extends GamePiece implements ControlActions, EatingActions{
         if(direction == 2){
             expCoord = new int[]{currX + 1, currY};
         }
-        //MOVE WEST
-        if(direction == 3){
-            expCoord = new int[]{currX, currY - 1};
-        }
         //MOVE EAST
-        if(direction == 4){
+        if(direction == 3){
             expCoord = new int[]{currX, currY + 1};
         }
+        //MOVE WEST
+        if(direction == 4){
+            expCoord = new int[]{currX, currY - 1};
+        }
+        
         //MOVE NORTH-WEST
         if(direction == 5){
             expCoord = new int[]{currX - 1, currY - 1};

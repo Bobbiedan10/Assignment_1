@@ -14,34 +14,41 @@ public class Zhen extends GamePiece implements ControlActions{
         int currY = getColPos();
         int[] expCoord = new int[2];
 
-        //MOVE NORTH
-        if(direction == 1){
+       //MOVE NORTH
+       if(direction == 1){
             expCoord = new int[]{currX - 1, currY};
         }
+        
         //MOVE SOUTH
         if(direction == 2){
             expCoord = new int[]{currX + 1, currY};
         }
-        //MOVE WEST
-        if(direction == 3){
-            expCoord = new int[]{currX, currY - 1};
-        }
+
         //MOVE EAST
-        if(direction == 4){
+        if(direction == 3){
             expCoord = new int[]{currX, currY + 1};
         }
+        
+        //MOVE WEST
+        if(direction == 4){
+            expCoord = new int[]{currX, currY - 1};
+        }
+    
         //MOVE NORTH-WEST
         if(direction == 5){
             expCoord = new int[]{currX - 1, currY - 1};
         }
+    
         //MOVE NORTH-EAST
         if(direction == 6){
             expCoord = new int[]{currX - 1, currY + 1};
         }
+        
         //MOVE SOUTH-WEST
         if(direction == 7){
             expCoord = new int[]{currX + 1, currY - 1};
         }
+        
         //MOVE SOUTH-EAST
         if(direction == 8){
             expCoord = new int[]{currX + 1, currY + 1};

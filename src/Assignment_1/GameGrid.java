@@ -3,6 +3,8 @@
 //Allow user to enter data using Scanner
 import java.util.Scanner;
 
+
+
 //GameGrid definition
 public class GameGrid {
     Scanner input = new Scanner(System.in);
@@ -149,7 +151,7 @@ public class GameGrid {
     //show the game grid to the user
     void displayGrid() {
        
-        
+        int zhens = 0;
 
         System.out.println(" ... ... ... ... ... ... ... ... ");
         for (int i = 0; i < numRows; i++) {
@@ -175,19 +177,19 @@ public class GameGrid {
             for (int j = 0; j < numCols; j++){
                 if(grid[i][j] instanceof Hunter){
                     Hunter hunter = (Hunter) grid[i][j];
-                    System.out.println("Hunter "+ hunter.getSymbol() + " energy: " +hunter.getEnergyLevel());
+                    hunter.setPlayed(false);
+                    System.out.println("Hunter "+ hunter.getSymbol() + " energy: " + hunter.getEnergyLevel());
+                }
+                else if(grid[i][j] instanceof Zhen){
+                    zhens++;
                 }
             }
         }
-        
-        
-        System.out.println("Number of Zhens: "+ numZhens);
+        numZhens = zhens;
+        System.out.println("Number of Zhens: "+ zhens);
     }
 
-    public void GamePlay()
-    {
-
-    }
+   
 
     public void displayMovementOptions(int player){
         if(player == 1){
@@ -236,11 +238,12 @@ public class GameGrid {
         return false;
     }
 
-    
+    //Select Zehn
     //Select hunter
     void selectHunter(){
       
-            while(true){
+            while(true)// Repeat indefinetly until broken
+            {
                 try{
                     System.out.println("Player 1 please select a hunter to move!");
                     System.out.print("Row:");
@@ -251,33 +254,172 @@ public class GameGrid {
                     if(grid[row][col] instanceof Hunter)
                     {
                         Hunter hunter = (Hunter) grid[row][col];
-                        displayMovementOptions(1);
+                        if(!hunter.getPlayed()){
+                            displayMovementOptions(1);
                         int direction = input.nextInt();
                         int[] newPos = hunter.findNewPos(direction);
                         if (validateMove(newPos[0], newPos[1])){
-                            grid[row][col] = null;
-                            hunter.moveToNewPos(direction);
-
-                            addGamePiece(hunter, hunter.getRowPos(), hunter.getColPos());
-                            
-                            return;
+                            if(direction >= 9){
+                                if(validateEating(hunter, direction))
+                                {
+                                    if(  hunter.getEnergyLevel()<hunter.getMaxEnergy()){
+                                        eatZhen(hunter, direction);
+                                        grid[row][col] = null;
+                                        hunter.moveToNewPos(direction);
+                                        hunter.setPlayed(true);
+                                        hunter.setEnergyLevel(hunter.getEnergyLevel()+1);
+                                        addGamePiece(hunter, hunter.getRowPos(), hunter.getColPos());
+                                        return;// 
+                                    }
+                                    else throw new GluttonyException();
+                                }
+                                else{
+                                    throw new Exception("No piece to eat try again");
+                                }
+                            }
+                            else{
+                                grid[row][col] = null;
+                                hunter.moveToNewPos(direction);
+                                if (hunter.getTimesNotEaten() >= 3)
+                                {
+                                    hunter.setTimesNotEaten( 0);
+                                    hunter.setEnergyLevel(hunter.getEnergyLevel()-1);
+                                }
+                                hunter.setTimesNotEaten( hunter.getTimesNotEaten() +1);
+                                addGamePiece(hunter, hunter.getRowPos(), hunter.getColPos());
+                                hunter.setPlayed(true);
+                                return;// breaks while loop
+                            }
+                          
                         }
                         else
                         System.out.println("Try Again");
+                        }
+                        else throw new Exception("Please select another hunter this one has played already for the round");
                     }
                     else System.out.println("Uhh ohh no Hunter at this position. Try again!");
     
                 }
                 catch (Exception e){
-                    System.out.println("Uhh ohh try again!");
+                    System.out.println(e);
                 }
             }
 
           
     }
-    //Created to determine if the end of game conditions are met.
-    boolean endGame(){
+
+    //Select Zehn
+    void selectZehn(){
+        int row;
+        int col;
+        while(true)// Repeat indefinetly until broken
+        {
+            try{
+                System.out.println("Player 2 please select a zhen to move!");
+                System.out.print("Row:");
+                row = input.nextInt();
+                System.out.print("Column:");
+                col = input.nextInt();
+
+                if(grid[row][col] instanceof Zhen)
+                {
+                    Zhen zhen = (Zhen) grid[row][col];
+                    displayMovementOptions(2);
+                    int direction = input.nextInt();
+                    int[] newPos = zhen.findNewPos(direction);
+                    if (validateMove(newPos[0], newPos[1])){
+                        removePiece(row, col);
+                        zhen.moveToNewPos(direction);
+                        addGamePiece(zhen, zhen.getRowPos(), zhen.getColPos());
+                        
+                        return;// breaks while loop
+                    }
+                    else
+                    System.out.println("Try Again");
+                }
+                else System.out.println("Uhh ohh no Zhen at this position. Try again!");
+
+            }
+            catch (Exception e){
+                System.out.println(e);
+            }
+        }
+
+    }
+    //Determines if the hunter can eat.
+    boolean validateEating(Hunter hunter, int direction){
+        
+        if( direction == 9){
+                if(grid[hunter.getRowPos()-1][hunter.getColPos()] instanceof Zhen)
+                    return true;
+                else return false;
+        }
+        else if( direction == 10){
+            if(grid[hunter.getRowPos()][hunter.getColPos()- 1] instanceof Zhen)
+                return true;
+            else return false;
+        }
+        else if( direction == 11){
+            if(grid[hunter.getRowPos()+1][hunter.getColPos()] instanceof Zhen)
+                return true;
+            else return false;
+        }
+        else if( direction == 12){
+            if(grid[hunter.getRowPos()][hunter.getColPos()+1] instanceof Zhen)
+                return true;
+            else return false;
+        }
+
         return false;
+    }
+
+    void eatZhen(Hunter hunter, int direction){
+        
+        if( direction == 9){
+                if(grid[hunter.getRowPos()-1][hunter.getColPos()] instanceof Zhen)
+                    removePiece(hunter.getRowPos()-1, hunter.getColPos());
+            
+        }
+        else if( direction == 10){
+            if(grid[hunter.getRowPos()][hunter.getColPos()- 1] instanceof Zhen)
+                removePiece(hunter.getRowPos(), hunter.getColPos()-1);
+        }
+        else if( direction == 11){
+            if(grid[hunter.getRowPos()+1][hunter.getColPos()] instanceof Zhen)
+            removePiece(hunter.getRowPos()+1, hunter.getColPos());
+        }
+        else if( direction == 12){
+            if(grid[hunter.getRowPos()][hunter.getColPos()+1] instanceof Zhen)
+            removePiece(hunter.getRowPos(), hunter.getColPos()+1);
+        }
+
+        
+    }
+
+    boolean checkEnergyLevel(){
+        int val =0;
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++){
+               if( grid[i][j] instanceof Hunter )
+                {
+                    Hunter hunter = (Hunter) grid[i][j];
+                    if(hunter.getEnergyLevel() <= 0)
+                        val++;
+
+                }
+            }
+        }
+        if(val <=1)
+            return false;
+        else return true;
+    }
+    //Created to determine if the end of game conditions are met.
+   int endGame(){
+        if(numZhens <= 8)
+            return 1;
+        else if(checkEnergyLevel())
+            return 2;
+        return 0;
     }
 
 }

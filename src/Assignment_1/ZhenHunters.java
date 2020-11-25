@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 //package Assignment_1;
 
@@ -17,10 +16,19 @@ public class ZhenHunters {
                 "number of Zhens left on the grid.\n\n\n");
 
         board.setupGrid();
-        while(!board.endGame()){
+        while(board.endGame() == 0){
             board.displayGrid();
+            board.selectZehn();
+            board.selectZehn();
+            board.selectHunter();
             board.selectHunter();
         }
+
+        if(board.endGame() == 1)
+            System.out.print("Winner Winner Chicken Dinner Player 1 has won the game"); 
+        else  System.out.print("Winner Winner Chicken Dinner Player 2 has won the game"); 
+        
+
             
             
             
